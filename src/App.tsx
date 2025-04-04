@@ -6,9 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import AdminLogin from "./pages/AdminLogin";
-import WholesalerLogin from "./pages/WholesalerLogin";
-import RetailerLogin from "./pages/RetailerLogin";
+import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import WholesalerDashboard from "./pages/WholesalerDashboard";
 import RetailerDashboard from "./pages/RetailerDashboard";
@@ -23,9 +21,10 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/admin-login" element={<AdminLogin />} />
-          <Route path="/wholesaler-login" element={<WholesalerLogin />} />
-          <Route path="/retailer-login" element={<RetailerLogin />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/admin-login" element={<Login />} />
+          <Route path="/wholesaler-login" element={<Login />} />
+          <Route path="/retailer-login" element={<Login />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/wholesaler-dashboard" element={<WholesalerDashboard />} />
           <Route path="/retailer-dashboard" element={<RetailerDashboard />} />

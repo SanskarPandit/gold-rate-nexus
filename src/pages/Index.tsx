@@ -7,6 +7,14 @@ import { toast } from "@/hooks/use-toast";
 const Index = () => {
   const navigate = useNavigate();
 
+  const handleLoginClick = (userType: string) => {
+    navigate("/login", { state: { defaultUserType: userType } });
+    toast({
+      title: `${userType.charAt(0).toUpperCase() + userType.slice(1)} Portal`,
+      description: "Redirecting to login",
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-purple-100 to-pink-50">
       <div className="w-full max-w-4xl px-4">
@@ -27,13 +35,7 @@ const Index = () => {
             <CardFooter>
               <Button 
                 className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white" 
-                onClick={() => {
-                  navigate("/login");
-                  toast({
-                    title: "Admin Portal",
-                    description: "Redirecting to login",
-                  });
-                }}
+                onClick={() => handleLoginClick("admin")}
               >
                 Admin Login
               </Button>
@@ -51,13 +53,7 @@ const Index = () => {
             <CardFooter>
               <Button 
                 className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white" 
-                onClick={() => {
-                  navigate("/login");
-                  toast({
-                    title: "Wholesaler Portal",
-                    description: "Redirecting to login",
-                  });
-                }}
+                onClick={() => handleLoginClick("wholesaler")}
               >
                 Wholesaler Login
               </Button>
@@ -75,13 +71,7 @@ const Index = () => {
             <CardFooter>
               <Button 
                 className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white" 
-                onClick={() => {
-                  navigate("/login");
-                  toast({
-                    title: "Retailer Portal",
-                    description: "Redirecting to login",
-                  });
-                }}
+                onClick={() => handleLoginClick("retailer")}
               >
                 Retailer Login
               </Button>

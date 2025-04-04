@@ -1,12 +1,13 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 type UserType = "admin" | "wholesaler" | "retailer";
 
@@ -18,10 +19,19 @@ const userTypeLabels = {
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [userType, setUserType] = useState<UserType>("retailer");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [isOtpSent, setIsOtpSent] = useState(false);
+
+  useEffect(() => {
+    // Check if there's a default user type in the location state
+    const state = location.state as { defaultUserType?: string } | null;
+    if (state?.defaultUserType && ["admin", "wholesaler", "retailer"].includes(state.defaultUserType)) {
+      setUserType(state.defaultUserType as UserType);
+    }
+  }, [location.state]);
 
   const handleUserTypeChange = (value: UserType) => {
     setUserType(value);
@@ -129,13 +139,22 @@ const Login = () => {
           {isOtpSent && (
             <div className="space-y-2">
               <Label htmlFor="otp" className="text-purple-700">Verification Code</Label>
-              <Input
-                id="otp"
-                placeholder="Enter the verification code"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                className="border-pink-200 focus:ring-purple-400"
-              />
+              <InputOTP 
+                maxLength={6}
+                value={otp} 
+                onChange={setOtp}
+                className="gap-2 flex justify-center"
+              >
+                <InputOTPGroup className="gap-2">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <InputOTPSlot 
+                      key={i} 
+                      index={i} 
+                      className="h-12 w-12 text-lg border-pink-200 focus:ring-purple-400 bg-white"
+                    />
+                  ))}
+                </InputOTPGroup>
+              </InputOTP>
             </div>
           )}
         </CardContent>
